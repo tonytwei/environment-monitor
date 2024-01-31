@@ -1,9 +1,11 @@
-FROM python:3.12
+FROM python:3.8
 
 WORKDIR /backend
-
-COPY requirements.txt /backend
-
-RUN pip install --no-cache-dir -r requirements.txt
-
 COPY . /backend
+EXPOSE 8000
+
+ENV FLASK_RUN_PORT 8000
+ENV FLASK_RUN_HOST 0.0.0.0
+RUN pip install -r requirements.txt
+
+CMD python app.py
