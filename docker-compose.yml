@@ -4,32 +4,25 @@ services:
     image: mysql:8
     environment:
       MYSQL_DATABASE: "db"
-      MYSQL_USER: "admin"
+      MYSQL_USER: "user"
       MYSQL_PASSWORD: "password"
       MYSQL_ROOT_PASSWORD: "password"
     ports:
       - "3306:3306"
     expose:
       - "3306"
+      - "33060"
     volumes:
       - db-data:/var/lib/mysql
 
   backend:
     build:
       context: backend
-    entrypoint:
-      - flask
-      - run
-      - --host=0.0.0.0
     restart: always
     environment:
-      - FLASK_DEBUG=1
-      - FLASK_APP=./app.py
       - MAPS_API_KEY=${MAPS_API_KEY}
       - MELB_CBD_LAT=${MELB_CBD_LAT}
       - MELB_CBD_LNG=${MELB_CBD_LNG}
-    secrets:
-      - db-password
     ports:
       - 8000:8000
     depends_on:
@@ -37,7 +30,3 @@ services:
 
 volumes:
   db-data:
-
-secrets:
-  db-password:
-    file: db/password.txt

@@ -5,16 +5,14 @@ import requests
 from datetime import datetime, timedelta
 
 class DBManager:
-    def __init__(self, database='db', host="db", user="root", password_file=None):
-        pf = open(password_file, 'r')
+    def __init__(self):
         self.connection = mysql.connector.connect(
-            user=user, 
-            password="",
-            host=host, # name of the mysql service as set in the docker compose file
-            database=database,
+            user="root", 
+            password="password",
+            host="db", # name of the mysql service as set in the docker compose file
+            database="db",
             auth_plugin='caching_sha2_password'
         )
-        pf.close()
         self.cursor = self.connection.cursor()
     
     def populate_db(self):
@@ -37,7 +35,7 @@ conn = None
 def hello_world():
     global conn
     if not conn:
-        conn = DBManager(password_file='/run/secrets/db-password')
+        conn = DBManager()
         conn.populate_db()
     rec = conn.query_titles()
 
@@ -60,7 +58,7 @@ def hello():
     iso_start_time = start_time.isoformat() + "Z"
     iso_end_time = end_time.isoformat() + "Z"
 
-    url = f"https://airquality.googleapis.com/v1/history:lookup"
+    url = "https://airquality.googleapis.com/v1/history:lookup"
     headers = {
         "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/117.0",
         "Content-Type": "application/json",

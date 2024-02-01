@@ -1,2 +1,4 @@
 mysql-connector-python==8.3.0
-enviroplus==0.0.6
+enviroplus
+pms5003
+bme280
