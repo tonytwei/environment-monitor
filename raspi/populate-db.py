@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 import time
 import mysql.connector
 from enviroplus import gas
@@ -9,7 +10,7 @@ class DBManager:
         self.connection = mysql.connector.connect(
             user="root", 
             password="password",
-            host="192.168.8.107", # name of the mysql service as set in the docker compose file
+            host="192.168.8.107", # db host's ip address
             port=3306,
             database="EnvironmentMonitor",
             auth_plugin='caching_sha2_password'
@@ -44,12 +45,10 @@ class DBManager:
             ))
         self.connection.commit()
     
-    def query_ids(self):
-        self.cursor.execute('SELECT id FROM SensorData')
-        rec = []
-        for c in self.cursor:
-            rec.append(c[0])
-        return rec
+    def get_last_timestamp(self):
+        self.cursor.execute('SELECT MAX(timestamp) FROM SensorData')
+        result = self.cursor.fetchone()
+        return result[0] if result else None
     
 conn = DBManager()
 bme280 = BME280()
@@ -71,15 +70,13 @@ def read_data():
                "pm10": particles.pm_ug_per_m3(10.0)        # particulate matter µg/m³
     }
 
+last_time = conn.get_last_timestamp()
 while True:
     data = read_data()
-    print(data)
-
-    conn.insert_data(data)
-    rec = conn.query_ids()
-    response = ''
-    for c in rec:
-        response += str(c) + ' '
-    print(response)
+    curr_time = datetime.now()
     
+    if last_time is None or (curr_time - last_time) >= timedelta(seconds=10):
+        conn.insert_data(data)
+        last_time = curr_time
+
     time.sleep(2)
