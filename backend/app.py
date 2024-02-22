@@ -1,5 +1,6 @@
 import os
-from flask import Flask, request
+import json
+from flask import Flask, request, jsonify
 import mysql.connector
 import requests
 from datetime import datetime, timedelta
@@ -9,54 +10,57 @@ class DBManager:
         self.connection = mysql.connector.connect(
             user="root", 
             password="password",
-            host="db", # name of the mysql service as set in the docker compose file
-            database="db",
+            host="db", # name of the db service in docker-compose.yml
+            port=3306,
+            database="EnvironmentMonitor",
             auth_plugin='caching_sha2_password'
         )
         self.cursor = self.connection.cursor()
     
-    def populate_db(self):
-        self.cursor.execute('DROP TABLE IF EXISTS blog')
-        self.cursor.execute('CREATE TABLE blog (id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(255))')
-        self.cursor.executemany('INSERT INTO blog (id, title) VALUES (%s, %s);', [(i, 'Blog post #%d'% i) for i in range (1,3)])
-        self.connection.commit()
-    
-    def query_titles(self):
-        self.cursor.execute('SELECT title FROM blog')
+    def query_db(self):
+        self.cursor.execute('SELECT * FROM SensorData')
         rec = []
         for c in self.cursor:
-            rec.append(c[0])
+            rec.append(','.join(str(x) for x in c))
         return rec
 
 app = Flask(__name__)
 conn = None
 
-@app.route('/', methods=['GET'])
-def hello_world():
+@app.route('/api/local', methods=['GET'])
+def local():
     global conn
     if not conn:
         conn = DBManager()
-        conn.populate_db()
-    rec = conn.query_titles()
-
-    response = ''
-    for c in rec:
-        response = response  + '<div>   Hello  ' + c + '</div>'
+    db_data = conn.query_db()
+    response = {}
+    response['hoursInfo'] = []
+    for c in db_data:
+        rec = c.split(',')
+        response['hoursInfo'].append({
+            'temperature': rec[1],
+            'pressure': rec[2],
+            'humidity': rec[3],
+            'reducing': rec[4],
+            'oxidising': rec[5],
+            'nh3': rec[6],
+            'pm1': rec[7],
+            'pm2_5': rec[8],
+            'pm10': rec[9],
+            'timestamp': rec[10]
+        })
     return response
-
-@app.route('/api/local', methods=['GET'])
-def local():
-    return "TODO: replace with db query"
 
 @app.route('/api/global', methods=['GET'])
 def hello():
-    lat = request.args.get('lat', default = os.environ['MELB_CBD_LAT'], type = str)
-    lng = request.args.get('lng', default = os.environ['MELB_CBD_LNG'], type = str)
-
     start_time = datetime.now() - timedelta(hours=72)
     end_time = datetime.now() - timedelta(hours=1)
     iso_start_time = start_time.isoformat() + "Z"
     iso_end_time = end_time.isoformat() + "Z"
+
+    
+    lat = request.args.get('lat', default = os.environ['MELB_CBD_LAT'], type = str)
+    lng = request.args.get('lng', default = os.environ['MELB_CBD_LNG'], type = str)
 
     url = "https://airquality.googleapis.com/v1/history:lookup"
     headers = {
@@ -79,9 +83,42 @@ def hello():
             "POLLUTANT_CONCENTRATION"
         ]
     }
-    response = requests.post(url=url, headers=headers, json=data, params=params)
-    return response.json()
+    inner_response = requests.post(url=url, headers=headers, json=data, params=params)
 
+    if not inner_response.ok:
+        return "Invalid API call"
+
+    response = {}
+    response['hoursInfo'] = []
+    for hourInfo in inner_response.json()['hoursInfo']:
+        pollutants = hourInfo.get('pollutants')
+        if pollutants == None or pollutants == []:
+            continue
+
+        hour = {}
+        date_object = datetime.strptime(hourInfo['dateTime'], '%Y-%m-%dT%H:%M:%SZ')
+        hour['timestamp'] = date_object.strftime('%Y-%m-%d %H:%M:%S')
+        hour['reducing'] = 0
+        hour['oxidising'] = 0
+
+        for pollutant in pollutants:
+            code = pollutant['code']
+            match code:
+                # case 'no2':
+                #     hour['oxidising'] += pollutant['concentration']['value']
+                #     hour['reducing'] += pollutant['concentration']['value']
+                # case 'so2':
+                #     hour['reducing'] += pollutant['concentration']['value']
+                case 'co':
+                    hour['reducing'] += pollutant['concentration']['value']
+                case 'o3':
+                    hour['oxidising'] += pollutant['concentration']['value']
+                case 'pm10':
+                    hour['pm10'] = pollutant['concentration']['value']
+                case 'pm25':
+                    hour['pm2_5'] = pollutant['concentration']['value']
+        response['hoursInfo'].append(hour)
+    return response
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000, debug=True)
