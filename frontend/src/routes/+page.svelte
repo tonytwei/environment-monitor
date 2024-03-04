@@ -8,20 +8,22 @@
 		data = await res.json();
 		// console.log(data);
 	});
+
+	// TODO: google maps coordinates input
 </script>
 
-<h1>enviroment-monitor</h1>
-
-<!-- <pre>
-  {JSON.stringify(data, null, 2)}
-</pre> -->
-
-{#if data}
-	<p>data loaded</p>
-	<Chart chartData={data} dataType="pm10" />
-	<Chart chartData={data} dataType="pm2_5" />
-	<Chart chartData={data} dataType="oxidising" />
-	<Chart chartData={data} dataType="reducing" />
-{:else}
-	<p>data loading...</p>
-{/if}
+<div class="bg-zinc-600 h-screen">
+	<h1>enviroment-monitor</h1>
+	{#if data}
+		<p>data loaded</p>
+		<div class="flex flex-row flex-wrap gap-3 w-full max-w-[1000px]">
+			{#each ['pm10', 'pm2_5', 'reducing', 'oxidising'] as key}
+				<div class="w-[480px] rounded-md p-2 bg-zinc-700">
+					<Chart chartData={data} dataType={key} />
+				</div>
+			{/each}
+		</div>
+	{:else}
+		<p>data loading...</p>
+	{/if}
+</div>

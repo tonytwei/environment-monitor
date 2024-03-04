@@ -2,7 +2,6 @@
 	import { onMount } from 'svelte';
 	import Chart from 'chart.js/auto';
 	import 'chartjs-adapter-date-fns';
-	import { de } from 'date-fns/locale';
 
 	export let chartData;
 	export let dataType;
@@ -38,11 +37,11 @@
 						maxTicksLimit: 9
 					}
 				}
-			}
-		},
-		adapters: {
-			date: {
-				locale: de
+			},
+			plugins: {
+				customCanvasBackgroundColor: {
+					color: 'lightGreen'
+				}
 			}
 		}
 	};
@@ -52,6 +51,4 @@
 	});
 </script>
 
-<div class="h-72">
-	<canvas bind:this={chart} />
-</div>
+<canvas bind:this={chart} />
