@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import Chart from '../components/Chart.svelte';
+	import Chart from '$lib/Chart.svelte';
 
 	let data;
 	onMount(async () => {
@@ -10,6 +10,11 @@
 	});
 
 	// TODO: google maps coordinates input
+
+	// TODO: add more data
+	// temperature
+	// pressure
+	// humidity
 </script>
 
 <div class="bg-zinc-600 h-screen">
