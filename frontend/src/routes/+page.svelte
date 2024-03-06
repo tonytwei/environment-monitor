@@ -1,12 +1,13 @@
 <script>
 	import { onMount } from 'svelte';
-	import Chart from '$lib/Chart.svelte';
+	import CurrChart from '$lib/CurrChart.svelte';
+	import HistChart from '$lib/HistChart.svelte';
 
 	let data;
 	onMount(async () => {
 		const res = await fetch('http://localhost:8000/api/global');
 		data = await res.json();
-		// console.log(data);
+		console.log(data);
 	});
 
 	// TODO: google maps coordinates input
@@ -23,8 +24,15 @@
 		<p>data loaded</p>
 		<div class="flex flex-row flex-wrap gap-3 w-full max-w-[1000px]">
 			{#each ['pm10', 'pm2_5', 'reducing', 'oxidising'] as key}
+				<div class="w-[300px] bg-zinc-700">
+					<CurrChart chartData={data} dataType={key} />
+				</div>
+			{/each}
+		</div>
+		<div class="flex flex-row flex-wrap gap-3 w-full max-w-[1000px]">
+			{#each ['pm10', 'pm2_5', 'reducing', 'oxidising'] as key}
 				<div class="w-[480px] rounded-md p-2 bg-zinc-700">
-					<Chart chartData={data} dataType={key} />
+					<HistChart chartData={data} dataType={key} />
 				</div>
 			{/each}
 		</div>
