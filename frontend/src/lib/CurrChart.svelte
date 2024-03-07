@@ -61,7 +61,7 @@
 			plugins: {
 				title: {
 					display: true,
-					text: titleMap[dataType],
+					text: '        ' + titleMap[dataType],
 					color: textWhite
 				},
 				legend: {
@@ -70,7 +70,8 @@
 			},
 			scales: {
 				y: {
-					beginAtZero: true,
+					min: 0,
+					max: dataType === 'pm10' || dataType === 'pm2_5' ? 150 : undefined,
 					ticks: {
 						display: false
 					},

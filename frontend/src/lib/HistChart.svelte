@@ -4,7 +4,7 @@
 	import 'chartjs-adapter-date-fns';
 
 	export let chartData;
-	export let dataType;
+	export let dataTypes;
 
 	const titleMap = {
 		pm10: 'PM10',
@@ -29,35 +29,35 @@
 	};
 
 	let chart;
+	let datasets = [];
+	dataTypes.forEach((dataType) => {
+		datasets.push({
+			label: titleMap[dataType],
+			data: chartData['hoursInfo'].map((x) => x[dataType]),
+			borderWidth: 1,
+			fill: true,
+			backgroundColor: backgroundColorMap[dataType],
+			borderColor: borderColorMap[dataType]
+		});
+	});
 	const data = {
 		labels: chartData['hoursInfo'].map((x) => x['timestamp']),
-		datasets: [
-			{
-				label: dataType,
-				data: chartData['hoursInfo'].map((x) => x[dataType]),
-				borderWidth: 1,
-				backgroundColor: backgroundColorMap[dataType],
-				borderColor: borderColorMap[dataType]
-			}
-		]
+		datasets: datasets
 	};
 	const config = {
 		type: 'line',
 		data: data,
 		options: {
 			plugins: {
-				title: {
-					display: true,
-					text: titleMap[dataType],
-					color: textWhite
-				},
 				legend: {
-					display: false
+					labels: {
+						color: textWhite
+					}
 				}
 			},
 			scales: {
 				y: {
-					beginAtZero: true,
+					min: 0,
 					ticks: {
 						color: textWhite
 					},
@@ -74,7 +74,7 @@
 						}
 					},
 					ticks: {
-						maxTicksLimit: 9,
+						maxTicksLimit: 3,
 						color: textWhite
 					},
 					grid: {
