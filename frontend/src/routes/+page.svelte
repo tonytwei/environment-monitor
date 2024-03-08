@@ -3,6 +3,13 @@
 	import CurrChart from '$lib/CurrChart.svelte';
 	import HistChart from '$lib/HistChart.svelte';
 
+	let locationOptions = ['Melbourne', 'Sydney', 'Auckland'];
+	let location = 'Melbourne';
+	// $: location, (data = fetchData(location));
+
+	let timeOptions = ['3 Days', '2 Days', '24 Hours', '12 Hours'];
+	let time = '3 Days';
+
 	let data;
 	onMount(async () => {
 		const res = await fetch('http://localhost:8000/api/global');
@@ -22,6 +29,19 @@
 	<h1>enviroment-monitor</h1>
 	{#if data}
 		<p>data loaded</p>
+		<div>
+			<select bind:value={location}>
+				{#each locationOptions as location}
+					<option value={location}>{location}</option>
+				{/each}
+			</select>
+			<select bind:value={time}>
+				{#each timeOptions as time}
+					<option value={time}>{time}</option>
+				{/each}
+			</select>
+			<p>{location + '   ' + time}</p>
+		</div>
 		<div>
 			<h1>Current Data:</h1>
 			<div class="flex flex-row flex-wrap gap-3 w-full">
