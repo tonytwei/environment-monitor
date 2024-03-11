@@ -5,12 +5,32 @@
 
 	export let chartData;
 	export let dataTypes;
+	export let time;
 
 	const titleMap = {
 		pm10: 'PM10',
 		pm2_5: 'PM2.5',
 		reducing: 'Reducing',
 		oxidising: 'Oxidising'
+	};
+
+	const timeLengths = {
+		'72 Hours': 72,
+		'48 Hours': 48,
+		'24 Hours': 24,
+		'12 Hours': 12
+	};
+	const timeDisplayFormats = {
+		'72 Hours': 'dd/LL',
+		'48 Hours': 'dd/LL HH:mm',
+		'24 Hours': 'dd/LL HH:mm',
+		'12 Hours': 'dd/LL HH:mm'
+	};
+	const timeTicks = {
+		'72 Hours': 3,
+		'48 Hours': 24,
+		'24 Hours': 24,
+		'12 Hours': 12
 	};
 
 	const textWhite = '#d4d4d8';
@@ -31,17 +51,25 @@
 	let chart;
 	let datasets = [];
 	dataTypes.forEach((dataType) => {
+		let dataTypeSet = [];
+		for (let i = 0; i < timeLengths[time]; i++) {
+			dataTypeSet.push(chartData['hoursInfo'][i][dataType]);
+		}
 		datasets.push({
 			label: titleMap[dataType],
-			data: chartData['hoursInfo'].map((x) => x[dataType]),
+			data: dataTypeSet,
 			borderWidth: 1,
 			fill: true,
 			backgroundColor: backgroundColorMap[dataType],
 			borderColor: borderColorMap[dataType]
 		});
 	});
+	let dataLabels = [];
+	for (let i = 0; i < timeLengths[time]; i++) {
+		dataLabels.push(chartData['hoursInfo'][i]['timestamp']);
+	}
 	const data = {
-		labels: chartData['hoursInfo'].map((x) => x['timestamp']),
+		labels: dataLabels,
 		datasets: datasets
 	};
 	const config = {
@@ -70,11 +98,11 @@
 					time: {
 						unit: 'hour',
 						displayFormats: {
-							hour: 'dd/LL hha'
+							hour: timeDisplayFormats[time]
 						}
 					},
 					ticks: {
-						maxTicksLimit: 3,
+						maxTicksLimit: timeTicks[time],
 						color: textWhite
 					},
 					grid: {
