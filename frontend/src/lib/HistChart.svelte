@@ -6,12 +6,13 @@
 	export let chartData;
 	export let dataTypes;
 	export let time;
-
 	const titleMap = {
 		pm10: 'PM10',
 		pm2_5: 'PM2.5',
-		reducing: 'Reducing',
-		oxidising: 'Oxidising'
+		no2: 'NO2',
+		so2: 'SO2',
+		co: 'CO',
+		o3: 'O3'
 	};
 
 	const timeLengths = {
@@ -38,14 +39,18 @@
 	const borderColorMap = {
 		pm10: 'rgba(255, 99, 132, 1)',
 		pm2_5: 'rgba(54, 162, 235, 1)',
-		reducing: 'rgba(255, 206, 86, 1)',
-		oxidising: 'rgba(75, 192, 192, 1)'
+		no2: 'rgba(255, 206, 86, 1)',
+		so2: 'rgba(75, 192, 192, 1)',
+		co: 'rgba(153, 102, 255, 1)',
+		o3: 'rgba(255, 159, 64, 1)'
 	};
 	const backgroundColorMap = {
 		pm10: 'rgba(255, 99, 132, 0.2)',
 		pm2_5: 'rgba(54, 162, 235, 0.2)',
-		reducing: 'rgba(255, 206, 86, 0.2)',
-		oxidising: 'rgba(75, 192, 192, 0.2)'
+		no2: 'rgba(255, 206, 86, 0.2)',
+		so2: 'rgba(75, 192, 192, 0.2)',
+		co: 'rgba(153, 102, 255, 0.2)',
+		o3: 'rgba(255, 159, 64, 0.2)'
 	};
 
 	let chart;

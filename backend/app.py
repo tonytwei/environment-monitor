@@ -60,7 +60,6 @@ def hello():
     iso_start_time = start_time.isoformat() + "Z"
     iso_end_time = end_time.isoformat() + "Z"
 
-    
     lat = request.args.get('lat', default = os.environ['MELB_CBD_LAT'], type = str)
     lng = request.args.get('lng', default = os.environ['MELB_CBD_LNG'], type = str)
 
@@ -100,29 +99,24 @@ def hello():
         hour = {}
         date_object = datetime.strptime(hourInfo['dateTime'], '%Y-%m-%dT%H:%M:%SZ')
         hour['timestamp'] = date_object.strftime('%Y-%m-%d %H:%M:%S')
-        hour['reducing'] = 0
-        hour['oxidising'] = 0
 
         for pollutant in pollutants:
             code = pollutant['code']
             match code:
-                # case 'no2':
-                #     hour['oxidising'] += pollutant['concentration']['value']
-                #     hour['reducing'] += pollutant['concentration']['value']
-                # case 'so2':
-                #     hour['reducing'] += pollutant['concentration']['value']
+                case 'no2':
+                    hour['no2'] = pollutant['concentration']['value']
+                case 'so2':
+                    hour['so2'] = pollutant['concentration']['value']
                 case 'co':
-                    hour['reducing'] += pollutant['concentration']['value']
+                    hour['co'] = pollutant['concentration']['value']
                 case 'o3':
-                    hour['oxidising'] += pollutant['concentration']['value']
+                    hour['o3'] = pollutant['concentration']['value']
                 case 'pm10':
                     hour['pm10'] = pollutant['concentration']['value']
                 case 'pm25':
                     hour['pm2_5'] = pollutant['concentration']['value']
         response['hoursInfo'].append(hour)
 
-    # response = jsonify(data)
-    # response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 if __name__ == '__main__':

@@ -5,32 +5,39 @@
 
 	export let chartData;
 	export let dataType;
-
 	const titleMap = {
-		pm10: 'PM10',
-		pm2_5: 'PM2.5',
-		reducing: 'Reducing',
-		oxidising: 'Oxidising'
+		pm10: 'Inhalable Particulate Matter (PM10)',
+		pm2_5: 'Fine Particulate Matter (PM2.5)',
+		no2: 'Nitrogen Dioxide (NO2)',
+		so2: 'Sulfur Dioxide(SO2)',
+		co: 'Carbon Monoxide (CO)',
+		o3: 'Ozone (O3)'
 	};
 	const unitsMap = {
 		pm10: 'µg/m³',
 		pm2_5: 'µg/m³',
-		reducing: 'kΩ',
-		oxidising: 'kΩ'
+		no2: 'ppb',
+		so2: 'ppb',
+		co: 'ppb',
+		o3: 'ppb'
 	};
 
 	const textWhite = '#e4e4e7';
 	const borderColorMap = {
 		pm10: 'rgba(255, 99, 132, 1)',
 		pm2_5: 'rgba(54, 162, 235, 1)',
-		reducing: 'rgba(255, 206, 86, 1)',
-		oxidising: 'rgba(75, 192, 192, 1)'
+		no2: 'rgba(255, 206, 86, 1)',
+		so2: 'rgba(75, 192, 192, 1)',
+		co: 'rgba(153, 102, 255, 1)',
+		o3: 'rgba(255, 159, 64, 1)'
 	};
 	const backgroundColorMap = {
 		pm10: 'rgba(255, 99, 132, 0.2)',
 		pm2_5: 'rgba(54, 162, 235, 0.2)',
-		reducing: 'rgba(255, 206, 86, 0.2)',
-		oxidising: 'rgba(75, 192, 192, 0.2)'
+		no2: 'rgba(255, 206, 86, 0.2)',
+		so2: 'rgba(75, 192, 192, 0.2)',
+		co: 'rgba(153, 102, 255, 0.2)',
+		o3: 'rgba(255, 159, 64, 0.2)'
 	};
 
 	let chart;
