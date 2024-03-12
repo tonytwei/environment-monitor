@@ -60,9 +60,9 @@
 </script>
 
 <div class="bg-zinc-900 h-screen">
-	<Header {location} {time} {loading} {showInfo} />
+	<Header bind:location bind:time bind:loading bind:showInfo />
 	<div class="flex flex-row">
-		<SideBar {location} {showInfo} />
+		<SideBar bind:location bind:loading bind:showInfo />
 		{#if showInfo}
 			<AboutInfo />
 		{:else if loading}
