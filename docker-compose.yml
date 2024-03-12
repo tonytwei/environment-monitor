@@ -29,5 +29,14 @@ services:
     depends_on:
       - db
 
+  frontend:
+    build:
+      context: frontend
+    restart: always
+    ports:
+      - 3000:3000
+    depends_on:
+      - backend
+
 volumes:
   db-data:

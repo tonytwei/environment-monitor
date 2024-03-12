@@ -1,4 +1,5 @@
 <script>
+	import { onMount } from 'svelte';
 	import CurrChart from '$lib/CurrChart.svelte';
 	import HistChart from '$lib/HistChart.svelte';
 	import AboutInfo from '../lib/AboutInfo.svelte';
@@ -40,22 +41,26 @@
 		}
 	};
 
-	const fetchData = async (location) => {
-		if (showInfo) {
-			return;
-		}
-		let lat = coordinates[location]['lat'];
-		let lng = coordinates[location]['lng'];
-		const res = await fetch(`http://localhost:8000/api/global?lat=${lat}&lng=${lng}`);
-		chartData = await res.json();
-		loading = false;
-	};
-
 	let chartData;
 	let showInfo = false;
 	let loading = true;
 	let time = '72 Hours';
 	let location = 'Melbourne';
+
+	const fetchData = async (location) => {
+		try {
+			if (showInfo) {
+				return;
+			}
+			let lat = coordinates[location]['lat'];
+			let lng = coordinates[location]['lng'];
+			const res = await fetch(`/api/global?lat=${lat}&lng=${lng}`);
+			chartData = await res.json();
+			loading = false;
+		} catch (error) {
+			console.error(error);
+		}
+	};
 	$: location, fetchData(location);
 </script>
 
