@@ -12,6 +12,7 @@
 	export let showInfo;
 	export let loading;
 	export let location;
+	export let fetchData;
 
 	const cityImages = [melbourne, sydney, london, new_york, paris, rio, tokyo, beijing];
 	const imageLocationMap = {
@@ -33,6 +34,7 @@
 				location = imageLocationMap[image];
 				loading = true;
 				showInfo = false;
+				fetchData(location);
 			}}
 			class={`p-2 w-max ${imageLocationMap[image] == location ? 'bg-purple-600' : ''}`}
 		>

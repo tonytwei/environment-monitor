@@ -57,7 +57,7 @@
 	let datasets = [];
 	dataTypes.forEach((dataType) => {
 		let dataTypeSet = [];
-		for (let i = 0; i < timeLengths[time]; i++) {
+		for (let i = 0; i < timeLengths[time] - 1; i++) {
 			dataTypeSet.push(chartData['hoursInfo'][i][dataType]);
 		}
 		datasets.push({
@@ -70,7 +70,7 @@
 		});
 	});
 	let dataLabels = [];
-	for (let i = 0; i < timeLengths[time]; i++) {
+	for (let i = 0; i < timeLengths[time] - 1; i++) {
 		dataLabels.push(chartData['hoursInfo'][i]['timestamp']);
 	}
 	const data = {

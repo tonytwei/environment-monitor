@@ -2,9 +2,9 @@
 	import { onMount } from 'svelte';
 	import CurrChart from '$lib/CurrChart.svelte';
 	import HistChart from '$lib/HistChart.svelte';
-	import AboutInfo from '../lib/AboutInfo.svelte';
-	import Header from '../lib/Header.svelte';
-	import SideBar from '../lib/SideBar.svelte';
+	import AboutInfo from '$lib/AboutInfo.svelte';
+	import Header from '$lib/Header.svelte';
+	import SideBar from '$lib/SideBar.svelte';
 
 	const coordinates = {
 		Melbourne: {
@@ -61,13 +61,16 @@
 			console.error(error);
 		}
 	};
-	$: location, fetchData(location);
+
+	onMount(() => {
+		fetchData(location);
+	});
 </script>
 
 <div class="bg-zinc-900 h-screen">
-	<Header bind:location bind:time bind:loading bind:showInfo />
+	<Header bind:location bind:time bind:loading bind:showInfo {fetchData} />
 	<div class="flex flex-row">
-		<SideBar bind:location bind:loading bind:showInfo />
+		<SideBar bind:location bind:loading bind:showInfo {fetchData} />
 		{#if showInfo}
 			<AboutInfo />
 		{:else if loading}

@@ -5,6 +5,7 @@
 	export let time;
 	export let loading;
 	export let showInfo;
+	export let fetchData;
 
 	let timeOptions = ['72 Hours', '48 Hours', '24 Hours', '12 Hours'];
 	let locationOptions = [
@@ -30,6 +31,7 @@
 			on:change={() => {
 				loading = true;
 				showInfo = false;
+				fetchData(location);
 			}}
 			class="bg-zinc-600 text-zinc-100 text-lg p-1 rounded-md"
 		>
