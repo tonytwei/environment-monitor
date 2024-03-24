@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 import time
 import mysql.connector
-from enviroplus import gas
 from bme280 import BME280
 from pms5003 import PMS5003
 
@@ -56,15 +55,11 @@ bme280.setup(mode="forced")
 pms5003 = PMS5003()
 
 def read_data():
-    gases = gas.read_all()
     particles = pms5003.read()
     return {
         "temperature": round(bme280.get_temperature(), 1), # °C
            "pressure": round(bme280.get_pressure(), 1),    # hPa
            "humidity": round(bme280.get_humidity(), 1),    # %
-           "reducing": round(gases.reducing / 1000, 1),    # reducing gases kOhm
-          "oxidising": round(gases.oxidising / 1000, 1),   # oxidising gases kOhm
-                "nh3": round(gases.nh3 / 1000, 1),         # ammonia kOhm
                 "pm1": particles.pm_ug_per_m3(1.0),        # particulate matter µg/m³
               "pm2_5": particles.pm_ug_per_m3(2.5),        # particulate matter µg/m³
                "pm10": particles.pm_ug_per_m3(10.0)        # particulate matter µg/m³
