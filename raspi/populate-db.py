@@ -23,9 +23,6 @@ class DBManager:
                 temperature,
                 pressure,
                 humidity,
-                reducing,
-                oxidising,
-                nh3,
                 pm1,
                 pm2_5,
                 pm10
@@ -35,9 +32,6 @@ class DBManager:
                 data['temperature'],
                 data['pressure'],
                 data['humidity'],
-                data['reducing'],
-                data['oxidising'],
-                data['nh3'],
                 data['pm1'],
                 data['pm2_5'],
                 data['pm10']

@@ -10,7 +10,7 @@ class DBManager:
     def __init__(self):
         self.connection = mysql.connector.connect(
             user="root", 
-            password="password",
+            password="myPassword",
             host="db", # name of the db service in docker-compose.yml
             port=3306,
             database="EnvironmentMonitor",
@@ -43,13 +43,10 @@ def local():
             'temperature': rec[1],
             'pressure': rec[2],
             'humidity': rec[3],
-            'reducing': rec[4],
-            'oxidising': rec[5],
-            'nh3': rec[6],
-            'pm1': rec[7],
-            'pm2_5': rec[8],
-            'pm10': rec[9],
-            'timestamp': rec[10]
+            'pm1': rec[4],
+            'pm2_5': rec[5],
+            'pm10': rec[6],
+            'timestamp': rec[7]
         })
     return response
 

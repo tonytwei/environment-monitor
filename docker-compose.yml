@@ -3,15 +3,12 @@ services:
   db:
     image: mysql:8
     environment:
-      MYSQL_DATABASE: "EnvironmentMonitor"
-      MYSQL_USER: "user"
-      MYSQL_PASSWORD: "password"
-      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_ROOT_PASSWORD: myPassword
+      MYSQL_DATABASE: EnvironmentMonitor
     ports:
-      - "3306:3306"
+      - 3306:3306
     expose:
-      - "3306"
-      - "33060"
+      - 3306
     volumes:
       - db-data:/var/lib/mysql
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
