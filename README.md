@@ -23,7 +23,7 @@ Setting up dashboard:
 Seeding database with local data:
 
 1. Clone the repository on a Raspberry Pi with Enviro+
-2. Navigate to script: `cd .\frontend\
+2. Navigate to script: `cd .\raspi\`
 3. Install requirements: `pip install -r requirements.txt`
 4. Run script: `python populate-db.py`
 
