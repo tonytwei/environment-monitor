@@ -1,28 +1,18 @@
 # Environment Monitor
 
-Environment Monitor is a comprehensive platform designed to provide real-time environmental data monitoring. Leveraging a Raspberry Pi with an Enviro+ sensor, it collects various environmental parameters such as temperature, pressure, humidity, and particulate matter levels.
+Environment Monitor is a comprehensive platform designed to provide real-time environmental data monitoring. Using a Raspberry Pi with an Enviro+ sensor, it collects various environmental parameters such as temperature, pressure, humidity, and particulate matter levels.
 
 ## Features
 
-1. **Real-time Environment Monitoring:** The application collects real-time data from a Raspberry Pi with Enviro+ sensor.
+- **Real-time Environment Monitoring:** The application collects real-time data from a Raspberry Pi with Enviro+ sensor.
 
-2. **Data Visualization:** The frontend, built with SvelteKit and styled with Tailwind CSS, provides a user-friendly interface to visualize the collected data using Chart.js.
+- **Data Visualization:** The frontend, built with SvelteKit and styled with Tailwind CSS, provides a user-friendly interface to visualize the collected data using Chart.js.
 
-3. **Local and Remote Access:** The application is containerized using Docker Compose, which allows it to be deployed and accessed both locally and remotely.
+- **Local and Remote Access:** The application is containerized using Docker Compose, which allows it to be deployed and accessed both locally and remotely.
 
-4. **Database Integration:** The application uses a MySQL database to store the collected data. This allows for historical data tracking and analysis.
+- **Database Integration:** The application uses a MySQL database to store the collected data. This allows for historical data tracking and analysis.
 
-## Technologies Used
-
-[![My Skills](https://skillicons.dev/icons?i=svelte,js,tailwind,flask,py,mysql,docker)](https://skillicons.dev)
-
-- **Frontend:** SvelteKit with Javascript
-- **Styling:** Tailwind CSS
-- **Backend:** Flask
-- **Database:** MySQL
-- Containerised using Docker
-
-## Setup
+## Getting Started
 
 Setting up dashboard:
 
@@ -37,7 +27,17 @@ Seeding database with local data:
 3. Install requirements: `pip install -r requirements.txt`
 4. Run script: `python populate-db.py`
 
-## Preview
+## Technologies Used
+
+[![My Skills](https://skillicons.dev/icons?i=svelte,js,tailwind,flask,py,mysql,docker)](https://skillicons.dev)
+
+- **Frontend:** SvelteKit with Javascript
+- **Styling:** Tailwind CSS
+- **Backend:** Flask
+- **Database:** MySQL
+- Containerised using Docker
+
+## Project Preview
 
 ![alt text](https://i.imgur.com/LrWrVHQ.png)
 
