@@ -1,7 +1,5 @@
 import os
-import json
-from flask import Flask, request, jsonify
-# from flask_cors import CORS
+from flask import Flask, request
 import mysql.connector
 import requests
 from datetime import datetime, timedelta
@@ -26,7 +24,6 @@ class DBManager:
         return rec
 
 app = Flask(__name__)
-# CORS(app)
 conn = None
 
 @app.route('/api/local', methods=['GET'])

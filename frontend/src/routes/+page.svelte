@@ -57,25 +57,11 @@
 			let lng = coordinates[location]['lng'];
 			const globalRes = await fetch(`/api/global?lat=${lat}&lng=${lng}`);
 			globalData = await globalRes.json();
-			console.log(globalData);
 
 			// fetch local data from db
 			if (location === 'Melbourne') {
 				const localRes = await fetch('/api/local');
 				localData = await localRes.json();
-				localData['hoursInfo'] = globalData['hoursInfo'].map((item) => {
-					return {
-						...item,
-						temperature: +(item.no2 + 3.2).toFixed(2),
-						pressure: +(item.so2 + Math.floor(Math.random() * 20) + 1000).toFixed(2),
-						humidity: +(item.o3 + Math.floor(Math.random() * 20) + 50).toFixed(2),
-						pm10: +(item.pm10 - 5.2).toFixed(2),
-						pm2_5: +(item.pm2_5 - 2.0).toFixed(2),
-						pm1: +(item.pm2_5 - 4.5).toFixed(2),
-						timestamp: item.timestamp
-					};
-				});
-				console.log(localData);
 			}
 
 			loading = false;
