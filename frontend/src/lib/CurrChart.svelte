@@ -3,50 +3,66 @@
 	import Chart from 'chart.js/auto';
 	import 'chartjs-adapter-date-fns';
 
-	export let chartData;
+	export let data;
 	export let dataType;
 	const titleMap = {
 		pm10: 'Inhalable Particulate Matter (PM10)',
 		pm2_5: 'Fine Particulate Matter (PM2.5)',
+		pm1: 'Ultrafine Particulate Matter (PM1)',
 		no2: 'Nitrogen Dioxide (NO2)',
 		so2: 'Sulfur Dioxide(SO2)',
 		co: 'Carbon Monoxide (CO)',
-		o3: 'Ozone (O3)'
+		o3: 'Ozone (O3)',
+		temperature: 'Temperature',
+		pressure: 'Pressure',
+		humidity: 'Humidity'
 	};
 	const unitsMap = {
 		pm10: 'µg/m³',
 		pm2_5: 'µg/m³',
+		pm1: 'µg/m³',
 		no2: 'ppb',
 		so2: 'ppb',
 		co: 'ppb',
-		o3: 'ppb'
+		o3: 'ppb',
+		temperature: '°C',
+		pressure: 'hPa',
+		humidity: '%'
 	};
 
 	const textWhite = '#e4e4e7';
 	const borderColorMap = {
 		pm10: 'rgba(255, 99, 132, 1)',
 		pm2_5: 'rgba(54, 162, 235, 1)',
+		pm1: 'rgba(255, 99, 132, 1)',
 		no2: 'rgba(255, 206, 86, 1)',
 		so2: 'rgba(75, 192, 192, 1)',
 		co: 'rgba(153, 102, 255, 1)',
-		o3: 'rgba(255, 159, 64, 1)'
+		o3: 'rgba(255, 159, 64, 1)',
+		temperature: 'rgba(255, 99, 132, 1)',
+		pressure: 'rgba(54, 162, 235, 1)',
+		humidity: 'rgba(255, 206, 86, 1)'
 	};
 	const backgroundColorMap = {
 		pm10: 'rgba(255, 99, 132, 0.2)',
 		pm2_5: 'rgba(54, 162, 235, 0.2)',
+		pm1: 'rgba(255, 99, 132, 0.2)',
 		no2: 'rgba(255, 206, 86, 0.2)',
 		so2: 'rgba(75, 192, 192, 0.2)',
 		co: 'rgba(153, 102, 255, 0.2)',
-		o3: 'rgba(255, 159, 64, 0.2)'
+		o3: 'rgba(255, 159, 64, 0.2)',
+		temperature: 'rgba(255, 99, 132, 0.2)',
+		pressure: 'rgba(54, 162, 235, 0.2)',
+		humidity: 'rgba(255, 206, 86, 0.2)'
 	};
 
 	let chart;
-	const data = {
-		labels: chartData['hoursInfo'].map((x) => x['timestamp']),
+	const formattedData = {
+		labels: data['hoursInfo'].map((x) => x['timestamp']),
 		datasets: [
 			{
 				label: dataType,
-				data: chartData['hoursInfo'].map((x) => x[dataType]),
+				data: data['hoursInfo'].map((x) => x[dataType]),
 				borderWidth: 1,
 				pointRadius: 0,
 				fill: true,
@@ -57,7 +73,7 @@
 	};
 	const config = {
 		type: 'line',
-		data: data,
+		data: formattedData,
 		options: {
 			layout: {
 				padding: {
@@ -78,7 +94,7 @@
 			scales: {
 				y: {
 					min: 0,
-					max: dataType === 'pm10' || dataType === 'pm2_5' ? 150 : undefined,
+					max: dataType === 'pm10' || dataType === 'pm2_5' || dataType === 'pm1' ? 150 : undefined,
 					ticks: {
 						display: false
 					},
@@ -116,7 +132,7 @@
 					ctx.fillStyle = textWhite;
 					ctx.font = '40px Verdana';
 					ctx.fillText(
-						chartData['hoursInfo'][0][dataType] + unitsMap[dataType],
+						data['hoursInfo'][0][dataType] + unitsMap[dataType],
 						chart.width / 2,
 						chart.height / 2
 					);

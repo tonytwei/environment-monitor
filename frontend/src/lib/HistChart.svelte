@@ -3,7 +3,7 @@
 	import Chart from 'chart.js/auto';
 	import 'chartjs-adapter-date-fns';
 
-	export let chartData;
+	export let globalData;
 	export let dataTypes;
 	export let time;
 	const titleMap = {
@@ -58,7 +58,7 @@
 	dataTypes.forEach((dataType) => {
 		let dataTypeSet = [];
 		for (let i = 0; i < timeLengths[time] - 1; i++) {
-			dataTypeSet.push(chartData['hoursInfo'][i][dataType]);
+			dataTypeSet.push(globalData['hoursInfo'][i][dataType]);
 		}
 		datasets.push({
 			label: titleMap[dataType],
@@ -71,7 +71,7 @@
 	});
 	let dataLabels = [];
 	for (let i = 0; i < timeLengths[time] - 1; i++) {
-		dataLabels.push(chartData['hoursInfo'][i]['timestamp']);
+		dataLabels.push(globalData['hoursInfo'][i]['timestamp']);
 	}
 	const data = {
 		labels: dataLabels,
