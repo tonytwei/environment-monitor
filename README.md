@@ -8,7 +8,7 @@ Environment Monitor is a comprehensive platform designed to provide real-time en
 
 - **Data Visualization:** The frontend, built with SvelteKit and styled with Tailwind CSS, provides a user-friendly interface to visualize the collected data using Chart.js.
 
-- **Local and Remote Access:** The application is containerized using Docker Compose, which allows it to be deployed and accessed both locally and remotely.
+- **Local and Remote Access:** The application is containerized using Docker Compose, which allows it to be deployed easily for development and deployment.
 
 - **Database Integration:** The application uses a MySQL database to store the collected data. This allows for historical data tracking and analysis.
 
@@ -29,13 +29,14 @@ Seeding database with local data:
 
 ## Technologies Used
 
-[![My Skills](https://skillicons.dev/icons?i=svelte,js,tailwind,flask,py,mysql,docker)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=svelte,js,tailwind,flask,py,mysql,docker,aws)](https://skillicons.dev)
 
 - **Frontend:** SvelteKit with Javascript
 - **Styling:** Tailwind CSS
 - **Backend:** Flask
 - **Database:** MySQL
 - Containerised using Docker
+- Hosted via AWS EC2
 
 ## Project Preview
 
